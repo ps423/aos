@@ -1,0 +1,34 @@
+﻿/*
+ * Q.1) Write a C program to find whether a given files passed through command line arguments are present in current directory or not.
+ * [10 Marks]
+ */
+
+#include <stdio.h>
+#include <dirent.h>
+#include <string.h>
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s <filename>\n", argv[0]);
+        return 1;
+    }
+    
+    DIR *dir = opendir(".");
+    struct dirent *entry;
+    int found = 0;
+    
+    while ((entry = readdir(dir)) != NULL) {
+        if (strcmp(entry->d_name, argv[1]) == 0) {
+            found = 1;
+            break;
+        }
+    }
+    closedir(dir);
+
+    if (found) 
+        printf("File '%s' exists in the current directory.\n", argv[1]);
+    else 
+        printf("File '%s' not found.\n", argv[1]);
+
+    return 0;
+}
